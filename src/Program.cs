@@ -660,28 +660,12 @@ internal static class Program
 
     private static int DoRestore(List<JournalEntry> entries)
     {
+        // 只把文件移回来，不碰图标位置。
+        // 以前这里会调 SetItemPositions 把图标摆回记录的格子，但记录一旦过期
+        // （格子已被别的图标占用），就会出现图标重叠/被挤到一边。
+        // 现在交给资源管理器自己排版，宁可位置不精确，也不能弄乱桌面。
         var (ok, fail, _remaining) = DesktopCleaner.RestoreFiles(entries);
-        AppLog.Info($"还原完成 ok={ok} fail={fail}");
-
-        var reader = TryOpenReader();
-        if (reader is not null)
-        {
-            try
-            {
-                var targets = new Dictionary<string, DeskTidy.Interop.NativeMethods.POINT>(
-                    StringComparer.OrdinalIgnoreCase);
-                var vr = reader.ViewRect;
-                foreach (var e in entries)
-                    targets[e.From] = new DeskTidy.Interop.NativeMethods.POINT
-                    { X = e.CellX - vr.Left, Y = e.CellY - vr.Top };
-
-                for (int attempt = 0; attempt < 8; attempt++)
-                    if (reader.SetItemPositions(targets) > 0) break;
-                    else Thread.Sleep(150);
-            }
-            catch (Exception ex) { AppLog.Warn($"摆位失败：{ex.Message}"); }
-            finally { reader.Dispose(); }
-        }
+        AppLog.Info($"还原完成 ok={ok} fail={fail}（位置由系统决定）");
         return 0;
     }
 
