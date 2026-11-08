@@ -128,7 +128,7 @@ internal static class DesktopCleaner
     public static string MakeTargetFolder(string anchor)
     {
         var stamp = DateTime.Now.ToString("yyyy-MM-dd_HHmm");
-        var dir = Path.Combine(anchor, $"收纳_{stamp}");
+        var dir = Path.Combine(anchor, $"collected_{stamp}");
         Directory.CreateDirectory(dir);
         return dir;
     }

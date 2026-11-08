@@ -31,9 +31,9 @@ internal static class AppPaths
         var candidates = new List<string>
         {
             Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DeskTidy"),
-            Path.Combine(AppContext.BaseDirectory, "DeskTidyData"),
-            Path.Combine(Path.GetTempPath(), "DeskTidy"),
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "falsifile"),
+            Path.Combine(AppContext.BaseDirectory, "falsifileData"),
+            Path.Combine(Path.GetTempPath(), "falsifile"),
         };
 
         foreach (var dir in candidates)

@@ -18,12 +18,12 @@ internal static class AppLog
     {
         _dir = AppPaths.LogsDir;
         try { Directory.CreateDirectory(_dir); } catch { _dir = Path.GetTempPath(); }
-        _file = Path.Combine(_dir, "desktidy.log");
+        _file = Path.Combine(_dir, "falsifile.log");
         // 只保留最近一次运行：超过 2MB 就轮转一次
         try
         {
             if (File.Exists(_file) && new FileInfo(_file).Length > 2 * 1024 * 1024)
-                File.Move(_file, Path.Combine(_dir, "desktidy.old.log"), overwrite: true);
+                File.Move(_file, Path.Combine(_dir, "falsifile.old.log"), overwrite: true);
         }
         catch { /* 日志轮转失败不影响运行 */ }
         Write("BOOT", $"pid={Environment.ProcessId} os={Environment.OSVersion.VersionString}");
